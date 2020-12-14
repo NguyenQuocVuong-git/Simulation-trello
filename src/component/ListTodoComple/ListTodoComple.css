@@ -1,0 +1,7 @@
+.active {
+    text-decoration: line-through;
+}
+
+.ant-checkbox {
+    display: none;
+}
