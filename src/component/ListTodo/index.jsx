@@ -23,6 +23,7 @@ import "./ListTodo.css";
 import { deleteTodo, setActiveTodo, editTodo } from "../../actions/todo";
 import { useDispatch , useSelector} from "react-redux";
 import { TagsOutlined, EditOutlined,DeleteOutlined , CheckOutlined  } from "@ant-design/icons";
+import moment from 'moment';
 
 
 function formatDay(dateInput) {
@@ -37,8 +38,11 @@ function formatDay(dateInput) {
     mm = "0" + mm;
   }
   var today = dd + "/" + mm + "/" + yyyy;
-  var dayFormat = today.toString().split("/").reverse().join("-");
-  return dayFormat;
+  // var dayFormat = today.toString().split("/").reverse().join("-");
+  // console.log("dayformat:", dayFormat);
+  // console.log('today', today);
+  return today;
+ 
 }
 
 const layout = {
@@ -138,6 +142,24 @@ function ListTodo(props) {
     console.log("onChange Date :", e.target.value);
   }
 
+  const showModal = (record) => {
+    console.log("record open edit form:", record.id);
+    localStorage.setItem('idObjectEdit', record.id);
+    console.log("full record : ", record);
+    var dateString = record.date;
+    var dateObject = new Date(dateString);
+    console.log("dateObject",dateObject);
+
+
+
+
+    form.setFieldsValue({
+      title: record.title ,
+      date : moment(dateString)
+    });
+    setVisible(true);
+  };
+
   const columns = [
     {
       title: "Sort",
@@ -191,7 +213,8 @@ function ListTodo(props) {
             >
               <div className="selection-are">
                 <Form.Item
-                  name={["todo", "title"]}
+                  // name={["todo", "title"]}
+                  name="title"
                   label="Title :"
                   rules={[
                     { required: true, message: "Please input your title!" },
@@ -202,7 +225,7 @@ function ListTodo(props) {
                   <Input prefix={<TagsOutlined />} value={record.title}/>
                 </Form.Item>
                 <Form.Item
-                  name={["todo", "date"]}
+                  name="date"
                   label="Select a day :"
                   rules={[
                     { required: true, message: "Please input your day!" },
@@ -253,11 +276,7 @@ function ListTodo(props) {
 
   function cancel(e) {}
 
-  const showModal = (record) => {
-    console.log("record open edit form:", record.id);
-    localStorage.setItem('idObjectEdit', record.id);
-    setVisible(true);
-  };
+ 
 
   const handleCancel = () => {
     setVisible(false);
@@ -265,10 +284,10 @@ function ListTodo(props) {
 
   function onEdit(record) {
     console.log("record :", record);
-    console.log("date edit :", record.todo.date._d);
-    const date = formatDay(record.todo.date._d);
+    console.log("date edit :", record.date._d);
+    const date = formatDay(record.date._d);
      const id = parseInt(localStorage.getItem('idObjectEdit'));
-     const title = record.todo.title;
+     const title = record.title;
     const object = {
       id : id,
       title : title,

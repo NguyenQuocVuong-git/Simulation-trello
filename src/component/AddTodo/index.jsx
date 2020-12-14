@@ -23,8 +23,8 @@ function formatDay(dateInput) {
     mm = "0" + mm;
   }
   var today = dd + "/" + mm + "/" + yyyy;
-  var dayFormat = today.toString().split("/").reverse().join("-");
-  return dayFormat;
+  // var dayFormat = today.toString().split("/").reverse().join("-");
+  return today;
 }
 
 function AddTodo(props) {
