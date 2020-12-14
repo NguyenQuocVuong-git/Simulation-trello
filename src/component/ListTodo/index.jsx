@@ -37,7 +37,8 @@ function formatDay(dateInput) {
   if (mm < 10) {
     mm = "0" + mm;
   }
-  var today = dd + "/" + mm + "/" + yyyy;
+ 
+  var today = yyyy + "/" + mm + "/" + dd
   // var dayFormat = today.toString().split("/").reverse().join("-");
   // console.log("dayformat:", dayFormat);
   // console.log('today', today);
@@ -147,8 +148,10 @@ function ListTodo(props) {
     localStorage.setItem('idObjectEdit', record.id);
     console.log("full record : ", record);
     var dateString = record.date;
-    var dateObject = new Date(dateString);
-    console.log("dateObject",dateObject);
+    console.log("dateString : ", record.date);
+    var dateParts = dateString.split("/");
+    var dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]); 
+    console.log("dateObject:", dateObject);
 
 
 
@@ -232,7 +235,7 @@ function ListTodo(props) {
                   ]}
                 >
                   <DatePicker
-                  format={"DD/MM/YYYY"}
+                  format={"YYYY/MM/DD"}
                    />
                 </Form.Item>
               </div>
@@ -286,6 +289,7 @@ function ListTodo(props) {
     console.log("record :", record);
     console.log("date edit :", record.date._d);
     const date = formatDay(record.date._d);
+    console.log("date sau khi edit ", date);
      const id = parseInt(localStorage.getItem('idObjectEdit'));
      const title = record.title;
     const object = {
@@ -331,9 +335,9 @@ function ListTodo(props) {
     <div>
        <Table
         pagination={{
-          defaultPageSize: 5,
+          defaultPageSize: 3,
           showSizeChanger: true,
-          pageSizeOptions: ["3", "6"],
+          pageSizeOptions: ["3","5", "6"],
         }}
         dataSource={dataSource}
         columns={columns}

@@ -13,7 +13,7 @@ const initialState = {
         {
             id : 1 ,
             title : "Use Hooks in a React application (Default TODO from INITIAL_STATE.js)",
-            date : "2020-12-05",
+            date : "2020/05/01",
             deActive :  0
         }
     ],
